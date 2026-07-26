@@ -60,6 +60,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Na telefonu ni vodoravnega drsenja — samo gor in dol.
+     "clip" reže brez ustvarjanja drsnega okvirja, zato lepljiva glava deluje.
+     Starejši brskalniki to vrstico spustijo in obdržijo pravilo na <body>. */
+  overflow-x: clip;
 }
 
 body {
@@ -70,7 +74,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: hidden; /* rezerva za starejše brskalnike */
+  overflow-x: clip;
 }
 
 ::selection {
@@ -162,7 +167,10 @@ h1, h2, h3, h4 {
   border: 0;
 }
 
-/* ---------- buttons ---------- */
+/* ---------- buttons ---------- *
+   V plasti "components", da Tailwindovi pripomočki (npr. hidden, md:inline-flex)
+   lahko povozijo te lastnosti — nepolasten CSS bi jih sicer vedno premagal. */
+@layer components {
 .btn {
   display: inline-flex;
   align-items: center;
@@ -199,11 +207,21 @@ h1, h2, h3, h4 {
   color: var(--blue-ink);
   transform: translateY(-2px);
 }
+/* ikona namesto besedila — enako dejanje, manj prostora */
+.btn-icon {
+  padding: 0;
+  gap: 0;
+  width: 42px;
+  height: 42px;
+  justify-content: center;
+}
+
 .btn .arw {
   transition: transform 0.35s var(--ease);
 }
 .btn:hover .arw {
   transform: translateX(4px);
+}
 }
 
 /* animated link underline */

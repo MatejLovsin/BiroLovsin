@@ -145,6 +145,8 @@ export const UI = {
   homeAriaLabel: "biroLovšin — domov",
   menuOpen: "Odpri meni",
   menuClose: "Zapri meni",
+  /** Opis gumba z ikono ovojnice (na ozkih zaslonih namesto e-naslova). */
+  emailAriaLabel: "Pošlji e-pošto",
   /** Filtri na strani Reference. */
   filterAll: "Vsi",
   noProjects: "Ni projektov v tej kategoriji.",
