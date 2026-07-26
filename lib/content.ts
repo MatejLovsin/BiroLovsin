@@ -24,7 +24,7 @@ export const CONTACT = {
   /** Kratek zapis kraja — uporabljen v hero oznaki in SEO. */
   place: "Vodice",
   email: "biro.lovsin@gmail.com",
-  phone: "+386 (0)51 304 323", // TODO: nadomesti s pravo številko
+  phone: "+386 (0)51 304 323",
 };
 
 /* ---------- 2. SEO ---------- *

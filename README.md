@@ -48,7 +48,9 @@ npm run start
   `titleAccent`, `titleRest`), ker je sredinska beseda obarvana modro.
 - **Barve, tipografija, slog** → `app/globals.css` (barve so na vrhu, izpeljane
   iz logotipa: steel blue `#619cbc`, graphite `#615e5e`).
-- **Logotip** → `public/logo-mark.png` (glava) in `public/logo.png` (noga).
+- **Logotip** → `public/logo-mark.svg` (glava) in `public/logo.svg` (noga).
+  Vektorski, izluščen iz `Logo.pdf`, zato se pri nobeni velikosti ne odreže.
+  Datoteki `.png` sta rasterski kopiji za rabo zunaj spletne strani.
 - **Favicon** → `app/icon.svg`.
 
 ## Dodajanje fotografij projektov
@@ -71,7 +73,7 @@ strani. Vse to se bere iz `CONTACT` v `lib/content.ts` — spremeniš na enem me
 
 ## TODO pred objavo
 
-- [ ] Nadomesti telefonsko številko v `lib/content.ts` (`CONTACT.phone`).
+- [x] Nadomesti telefonsko številko v `lib/content.ts` (`CONTACT.phone`).
 - [ ] Preveri/uskladi statistike v `lib/content.ts` (`STATS` — trenutno okvirne).
 - [ ] Dodaj prave fotografije projektov.
 - [ ] Potrdi domeno (`metadataBase` v `app/layout.tsx` je `birolovsin.si`).
