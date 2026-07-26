@@ -1,26 +1,256 @@
 @import "tailwindcss";
 
+/* ============================================================
+   biroLovšin — design system
+   Aesthetic: engineering blueprint / technical editorial
+   Palette derived from the logo: steel blue + warm graphite
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* paper & ink */
+  --paper: #f2eee7;
+  --paper-raised: #faf8f3;
+  --paper-deep: #e8e2d8;
+
+  --ink: #1b1a18;
+  --ink-2: #46433f;
+  --ink-3: #7b766f;
+
+  /* brand */
+  --blue: #619cbc;          /* logo steel blue */
+  --blue-bright: #79b2d0;
+  --blue-deep: #3d789c;     /* AA on paper */
+  --blue-ink: #285a76;
+  --gray: #615e5e;          /* logo graphite */
+
+  /* accents & lines */
+  --spark: #c47a34;         /* sparing "live current" accent */
+  --line: rgba(97, 156, 188, 0.16);
+  --line-strong: rgba(97, 156, 188, 0.32);
+  --hair: rgba(27, 26, 24, 0.12);
+
+  --shadow-soft: 0 1px 2px rgba(27, 26, 24, 0.04),
+    0 8px 30px -12px rgba(40, 90, 118, 0.18);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-blue: var(--blue);
+  --color-blue-deep: var(--blue-deep);
+  --color-blue-ink: var(--blue-ink);
+  --color-gray: var(--gray);
+  --color-spark: var(--spark);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--blue);
+  color: var(--paper-raised);
+}
+
+/* ---------- blueprint grid background ---------- */
+.blueprint {
+  position: relative;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: center;
+}
+.blueprint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+  background-size: 140px 140px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* subtle paper grain */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* ---------- typography ---------- */
+.font-display {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+  font-weight: 500;
+}
+
+.tick {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-3);
+}
+
+/* ---------- layout helpers ---------- */
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .wrap { padding-inline: 40px; }
+}
+
+.rule {
+  height: 1px;
+  background: var(--hair);
+  border: 0;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.95em 1.5em;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease), background 0.3s, color 0.3s,
+    box-shadow 0.35s var(--ease);
+  text-decoration: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper-raised);
+}
+.btn-primary:hover {
+  background: var(--blue-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -14px rgba(40, 90, 118, 0.7);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--hair);
+}
+.btn-ghost:hover {
+  border-color: var(--blue-deep);
+  color: var(--blue-ink);
+  transform: translateY(-2px);
+}
+.btn .arw {
+  transition: transform 0.35s var(--ease);
+}
+.btn:hover .arw {
+  transform: translateX(4px);
+}
+
+/* animated link underline */
+.ulink {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+.ulink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.ulink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* current-flow keyframe for schematic accents */
+@keyframes flow {
+  to { stroke-dashoffset: -1000; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.35); }
 }
