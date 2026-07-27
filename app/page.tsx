@@ -177,7 +177,7 @@ export default function Home() {
                 ))}
               </ul>
               <span
-                className="absolute left-0 bottom-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
+                className="absolute left-0 bottom-0 h-[2px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
                 style={{ background: "var(--blue)" }}
               />
             </article>
@@ -256,7 +256,7 @@ export default function Home() {
                 alt={p.title}
                 label={p.category}
                 index={String(i + 1).padStart(2, "0")}
-                className="mb-4 transition-transform duration-500 group-hover:-translate-y-1"
+                className="mb-4 transition-transform duration-200 group-hover:-translate-y-1"
               />
               <div className="flex items-baseline justify-between">
                 <h3 className="font-display text-[1.2rem] font-semibold">{p.title}</h3>

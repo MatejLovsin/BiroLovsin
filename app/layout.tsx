@@ -6,17 +6,22 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SEO } from "@/lib/content";
 
+/* Naštete so SAMO dejansko uporabljene debeline — vsaka doda svojo datoteko.
+   display: 600 (font-semibold), 700 (naslovi h1–h4), 800 (font-extrabold)
+   sans:    400 (osnovno besedilo), 500 (font-medium v meniju)
+   mono:    400 (.tick, .btn), 500 (.eyebrow)
+   Če kje dodate novo debelino, jo pripišite tudi sem. */
 const display = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
 const sans = Instrument_Sans({
   variable: "--font-sans",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   display: "swap",
 });
 

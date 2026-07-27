@@ -156,6 +156,21 @@ export const UI = {
   planRooms: ["DNEVNA", "KUHINJA", "SPALNICA", "TEHNIČNI P."],
   planPlot: "12 400 mm",
   planPanel: "R-0",
+  /** Namig pod shemo — pove, da je shema odzivna na dotik/miško. */
+  planHint: "Izberite simbol za prikaz tokokroga",
+  /** Opis sheme za bralnike zaslona. */
+  planAriaLabel: "Shematski tloris električnih inštalacij",
+  /**
+   * Tokokrogi na shemi. Prikažejo se ob prehodu miške ali dotiku simbola.
+   * `code` je oznaka tokokroga, `name` opis, `spec` pa zaščita in presek
+   * vodnika. Vrednosti so ponazoritvene — po želji jih prilagodite.
+   */
+  planCircuits: [
+    { code: "TK-01", name: "Razsvetljava — dnevna", spec: "10 A · 3×1,5 mm²" },
+    { code: "TK-02", name: "Razsvetljava — spalnica", spec: "10 A · 3×1,5 mm²" },
+    { code: "TK-03", name: "Vtičnice — kuhinja", spec: "16 A · 3×2,5 mm²" },
+    { code: "TK-04", name: "Motorni izvod — TP", spec: "16 A · 5×2,5 mm²" },
+  ],
 };
 
 /* ---------- 8a. STORITVE (kartice na domači strani) ---------- */

@@ -152,57 +152,178 @@ export default function Header() {
         </div>
       </div>
 
-      {/* mobile menu */}
+      {/* mobile menu — "risalni list": list pade čez zaslon, modri rob teče
+         pred njim, mreža se nariše, napisi zdrsnejo izpod svojih kot. */}
       <div
-        className="md:hidden fixed inset-0 z-40 flex flex-col justify-center px-8 transition-all duration-500"
-        style={{
-          background: "var(--paper-raised)",
-          pointerEvents: open ? "auto" : "none",
-          opacity: open ? 1 : 0,
-          clipPath: open
-            ? "inset(0 0 0 0)"
-            : "inset(0 0 100% 0)",
-        }}
+        className="md:hidden fixed inset-0 z-40"
+        style={{ pointerEvents: open ? "auto" : "none" }}
+        /* zaprt meni je povsem izločen — ni ga v bralniku zaslona in vanj
+           ni mogoče stopiti s tipko Tab */
+        inert={!open}
       >
-        <nav className="flex flex-col gap-1">
-          {NAV.map((item, i) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex items-baseline gap-4 py-3 border-b"
-                style={{
-                  borderColor: "var(--hair)",
-                  transform: open ? "none" : "translateY(16px)",
-                  opacity: open ? 1 : 0,
-                  transition: `all 0.5s var(--ease) ${0.06 * i + 0.1}s`,
-                }}
-              >
-                <span className="tick">{item.idx}</span>
-                <span
-                  className="font-display text-4xl font-semibold"
-                  style={{ color: active ? "var(--blue-ink)" : "var(--ink)" }}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
-        <a
-          href={`mailto:${CONTACT.email}`}
-          className="btn btn-primary self-start mt-10"
+        {/* list */}
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            background: "var(--paper-raised)",
+            clipPath: open ? "inset(0 0 0 0)" : "inset(0 0 100% 0)",
+            transition: `clip-path ${
+              open ? "0.62s var(--ease) 0s" : "0.3s var(--ease) 0s"
+            }`,
+          }}
         >
-          {CONTACT.email}
-          <span className="arw">→</span>
-        </a>
-        <p className="tick mt-6">
-          {CONTACT.street} · {CONTACT.city}
-        </p>
+          {/* mreža se nariše za napisi */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px)",
+              backgroundSize: "28px 28px",
+              backgroundPosition: "center",
+              opacity: open ? 1 : 0,
+              transform: open ? "none" : "translateY(-16px)",
+              transition: `opacity ${
+                open ? "0.7s var(--ease) 0.16s" : "0.2s linear 0s"
+              }, transform ${
+                open ? "0.8s var(--ease) 0.16s" : "0.25s var(--ease) 0s"
+              }`,
+            }}
+          />
+          {/* robna črta lista */}
+          <div
+            className="absolute top-0 bottom-0 origin-top"
+            style={{
+              left: "20px",
+              width: "1px",
+              background: "var(--line-strong)",
+              transform: open ? "scaleY(1)" : "scaleY(0)",
+              transition: `transform ${
+                open ? "0.7s var(--ease) 0.12s" : "0.28s var(--ease) 0s"
+              }`,
+            }}
+          />
+
+          {/* Vsebina je ZNOTRAJ lista, zato jo izrez odreže hkrati z njim —
+             ob zapiranju ne more nikoli ostati vidna nad stranjo. */}
+          <div className="relative h-full flex flex-col justify-center px-8">
+          <nav className="flex flex-col">
+            {NAV.map((item, i) => {
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+              const d = 0.24 + i * 0.09;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group relative flex items-baseline gap-4 py-3"
+                >
+                  <span
+                    className="tick"
+                    style={{
+                      opacity: open ? 1 : 0,
+                      transform: open ? "none" : "translateX(-8px)",
+                      transition: `opacity ${
+                        open ? `0.4s var(--ease) ${d}s` : "0.1s linear 0s"
+                      }, transform ${
+                        open ? `0.5s var(--ease) ${d}s` : "0.14s var(--ease) 0s"
+                      }`,
+                    }}
+                  >
+                    {item.idx}
+                  </span>
+                  {/* napis zdrsne izpod kote */}
+                  <span
+                    className="block overflow-hidden"
+                    style={{ paddingBottom: "0.08em" }}
+                  >
+                    <span
+                      className="block font-display text-4xl font-semibold leading-[1.05]"
+                      style={{
+                        color: active ? "var(--blue-ink)" : "var(--ink)",
+                        transform: open ? "translateY(0)" : "translateY(110%)",
+                        transition: `transform ${
+                          open
+                            ? `0.62s cubic-bezier(0.16,1,0.3,1) ${d + 0.03}s`
+                            : "0.16s cubic-bezier(0.7,0,0.84,0) 0s"
+                        }`,
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  </span>
+                  {/* kota se izriše od leve */}
+                  <span
+                    className="absolute inset-x-0 bottom-0 origin-left"
+                    style={{
+                      height: "1px",
+                      background: "var(--hair)",
+                      transform: open ? "scaleX(1)" : "scaleX(0)",
+                      transition: `transform ${
+                        open ? `0.55s var(--ease) ${d}s` : "0.14s var(--ease) 0s"
+                      }`,
+                    }}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="btn btn-primary self-start mt-10"
+            style={{
+              opacity: open ? 1 : 0,
+              transform: open ? "none" : "translateY(14px)",
+              transition: `opacity ${
+                open ? `0.5s var(--ease) ${0.24 + NAV.length * 0.09}s` : "0.16s linear 0s"
+              }, transform ${
+                open
+                  ? `0.6s var(--ease) ${0.24 + NAV.length * 0.09}s`
+                  : "0.2s var(--ease) 0s"
+              }`,
+            }}
+          >
+            {CONTACT.email}
+            <span className="arw">→</span>
+          </a>
+          <p
+            className="tick mt-6"
+            style={{
+              opacity: open ? 1 : 0,
+              transform: open ? "none" : "translateY(10px)",
+              transition: `opacity ${
+                open
+                  ? `0.5s var(--ease) ${0.3 + NAV.length * 0.09}s`
+                  : "0.16s linear 0s"
+              }, transform ${
+                open
+                  ? `0.6s var(--ease) ${0.3 + NAV.length * 0.09}s`
+                  : "0.2s var(--ease) 0s"
+              }`,
+            }}
+          >
+            {CONTACT.street} · {CONTACT.city}
+          </p>
+          </div>
+        </div>
+
+        {/* vodilni rob — teče pred zapolnitvijo, za njo pa zaostaja.
+           Je zunaj lista, sicer bi ga izrez odrezal. */}
+        <div
+          className="absolute inset-x-0 top-0"
+          style={{
+            height: "1px",
+            background: "var(--blue)",
+            transform: open ? "translateY(100dvh)" : "translateY(0)",
+            opacity: open ? 1 : 0,
+            transition: `transform ${
+              open ? "0.52s" : "0.46s"
+            } var(--ease), opacity ${
+              open ? "0.12s linear 0s" : "0.01s linear 0.45s"
+            }`,
+          }}
+        />
       </div>
     </header>
   );
